@@ -45,6 +45,9 @@ button:hover {
   border: 1px solid #646cff;
   background-color: #646cff;
 }
+button:active {
+  background-color: #585fe7;
+}
 button:disabled {
   cursor: none;
   pointer-events: none;
