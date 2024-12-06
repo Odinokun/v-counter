@@ -3,23 +3,37 @@ import { Input } from './Input';
 import { Button } from './Button';
 
 type SettingsValType = {
-  [key: string]: number;
+  id: string;
+  value: number;
+  fieldName: string;
+  error: boolean;
 };
 
 export const Settings: FC = () => {
-  const [settingsVal, setSettingsVal] = useState<SettingsValType>({
-    maxVal: 0,
-    startVal: 0,
-  });
+  const [settingsVal, setSettingsVal] = useState<SettingsValType[]>([
+    { id: crypto.randomUUID(), value: 1, fieldName: 'max value', error: false },
+    { id: crypto.randomUUID(), value: 0, fieldName: 'start value', error: false },
+  ]);
+
+  const onChangeSetting = (inputId: string, newVal: number) =>
+    setSettingsVal(settingsVal.map(s => (s.id === inputId ? { ...s, value: newVal } : s)));
 
   return (
     <div className='block'>
       <div className='block__body block--border'>
-        <Input fieldName='max value' error={false} />
-        <Input fieldName='start value' error={false} />
+        {settingsVal.map(i => (
+          <Input
+            key={i.id}
+            inputId={i.id}
+            fieldName={i.fieldName}
+            settingValue={i.value}
+            error={i.error}
+            onChangeSetting={onChangeSetting}
+          />
+        ))}
       </div>
       <div className='block__footer  block--border'>
-        <Button name='Set' onClick={() => {}} disabled={true} />
+        <Button name='Set' onClick={() => console.log(settingsVal)} disabled={false} />
       </div>
     </div>
   );

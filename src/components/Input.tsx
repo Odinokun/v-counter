@@ -1,15 +1,19 @@
 import { ChangeEvent, FC, useState } from 'react';
 
 type PropsType = {
+  inputId: string;
   fieldName: string;
+  settingValue: number;
   error: boolean;
+  onChangeSetting: (inputId: string, newVal: number) => void;
 };
 
-export const Input: FC<PropsType> = ({ fieldName, error }) => {
-  const [value, setValue] = useState<string>('0');
+export const Input: FC<PropsType> = ({ inputId, fieldName, settingValue, error, onChangeSetting }) => {
+  const [value, setValue] = useState<number>(settingValue);
 
   const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    setValue(e.currentTarget.value);
+    onChangeSetting(inputId, +e.currentTarget.value);
+    setValue(+e.currentTarget.value);
   };
 
   return (
