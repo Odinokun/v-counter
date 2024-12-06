@@ -10,11 +10,12 @@ export type StateType = {
 
 function App() {
   const [state, setState] = useState<StateType>({ maxValue: 5, startValue: 0 });
-  console.log('state', state);
+  const [isChange, setIsChange] = useState<boolean>(false);
+
   return (
     <div className='wrap block--border'>
-      <Settings state={state} setState={setState} />
-      <Counter maxVal={state.maxValue} startVal={state.startValue} />
+      <Settings state={state} setState={setState} setIsChange={setIsChange} />
+      <Counter state={state} isChange={isChange} />
     </div>
   );
 }
