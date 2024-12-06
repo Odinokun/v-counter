@@ -6,10 +6,10 @@ type PropsType = {
 };
 
 export const Input: FC<PropsType> = ({ fieldName, error }) => {
-  const [value, setValue] = useState<string>('0');
+  const [value, setValue] = useState<number>(0);
 
   const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    setValue(e.currentTarget.value);
+    setValue(+e.currentTarget.value);
   };
 
   return (
