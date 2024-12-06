@@ -59,8 +59,17 @@ input {
   font-size: 1em;
   font-weight: 500;
   padding: .6em 1.2em;
-  color: #242424;
+  color: #ececec;
   border: 1px solid #646cff;
   border-radius: 8px;
-  background-color: #ececec;
+  background-color: transparent;
+}
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+  cursor: pointer;
+  opacity: 1;
+}
+.input-error {
+  color: tomato;
+  outline: 2px solid tomato;
 }
