@@ -1,31 +1,47 @@
 import { ChangeEvent, FC, useState } from 'react';
 
 type PropsType = {
-  stateVal: number;
+  stateInputVal: number;
+  stateMaxVal: number;
+  stateStartVal: number;
   fieldName: string;
   changeVal: (newVal: number) => void;
   onOffBtn: (val: boolean) => void;
 };
 
 export const Input: FC<PropsType> = ({
-  stateVal,
+  stateInputVal,
+  stateMaxVal,
+  stateStartVal,
   fieldName,
   changeVal,
   onOffBtn,
 }) => {
-  const [value, setValue] = useState<number>(stateVal);
   const [error, setError] = useState<boolean>(false);
 
   const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    setValue(+e.currentTarget.value);
-    if (+e.currentTarget.value < 0) {
-      onOffBtn(true);
+    const newValue = +e.currentTarget.value;
+    changeVal(newValue);
+
+    if (newValue < 0) {
+      // negative value check
       setError(true);
-    } else {
-      onOffBtn(false);
-      setError(false);
-      changeVal(+e.currentTarget.value);
+      onOffBtn(true);
+      return;
+    } else if (fieldName === 'Start value:' && newValue >= stateMaxVal) {
+      // Start value check
+      setError(true);
+      onOffBtn(true);
+      return;
+    } else if (fieldName === 'Max value:' && newValue <= stateStartVal) {
+      // Max value check
+      setError(true);
+      onOffBtn(true);
+      return;
     }
+
+    setError(false);
+    onOffBtn(false);
   };
 
   return (
@@ -34,7 +50,7 @@ export const Input: FC<PropsType> = ({
       <input
         className={error ? 'input-error' : ''}
         type='number'
-        value={value}
+        value={stateInputVal}
         onChange={onChangeHandler}
       />
     </div>

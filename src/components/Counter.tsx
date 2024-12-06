@@ -27,7 +27,7 @@ export const Counter: FC<PropsType> = ({ state, isChange }) => {
   };
 
   const resetCount = () => {
-    setCounter(0);
+    setCounter(state.startValue);
     setError(false);
   };
 

@@ -24,8 +24,8 @@ export const Settings: FC<PropsType> = ({ state, setState, setIsChange }) => {
   };
 
   const setLocalStorage = () => {
-    // localStorage.setItem('maxValue', JSON.stringify(state.maxValue));
-    // localStorage.setItem('startValue', JSON.stringify(state.startValue));
+    localStorage.setItem('maxValue', JSON.stringify(state.maxValue));
+    localStorage.setItem('startValue', JSON.stringify(state.startValue));
     setIsChange(false);
     setDisabled(true);
   };
@@ -34,13 +34,17 @@ export const Settings: FC<PropsType> = ({ state, setState, setIsChange }) => {
     <div className='block'>
       <div className='block__body block--border'>
         <Input
-          stateVal={state.maxValue}
+          stateInputVal={state.maxValue}
+          stateMaxVal={state.maxValue}
+          stateStartVal={state.startValue}
           fieldName={'Max value:'}
           changeVal={setMaxVal}
           onOffBtn={onOffBtn}
         />
         <Input
-          stateVal={state.startValue}
+          stateInputVal={state.startValue}
+          stateMaxVal={state.maxValue}
+          stateStartVal={state.startValue}
           fieldName={'Start value:'}
           changeVal={setStartVal}
           onOffBtn={onOffBtn}
