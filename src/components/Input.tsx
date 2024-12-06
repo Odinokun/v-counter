@@ -7,10 +7,14 @@ type PropsType = {
   onOffBtn: (val: boolean) => void;
 };
 
-export const Input: FC<PropsType> = ({ stateVal, fieldName, changeVal, onOffBtn }) => {
+export const Input: FC<PropsType> = ({
+  stateVal,
+  fieldName,
+  changeVal,
+  onOffBtn,
+}) => {
   const [value, setValue] = useState<number>(stateVal);
   const [error, setError] = useState<boolean>(false);
-  // const [onOffChangeVal, setOnOffChangeVal] = useState<boolean>(false);
 
   const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setValue(+e.currentTarget.value);
@@ -27,7 +31,12 @@ export const Input: FC<PropsType> = ({ stateVal, fieldName, changeVal, onOffBtn 
   return (
     <div className='input-wrap '>
       <div>{fieldName}</div>
-      <input className={error ? 'input-error' : ''} type='number' value={value} onChange={onChangeHandler} />
+      <input
+        className={error ? 'input-error' : ''}
+        type='number'
+        value={value}
+        onChange={onChangeHandler}
+      />
     </div>
   );
 };
