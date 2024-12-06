@@ -1,39 +1,35 @@
 import { FC, useState } from 'react';
 import { Input } from './Input';
 import { Button } from './Button';
+import { StateType } from '../App';
 
-type SettingsValType = {
-  id: string;
-  value: number;
-  fieldName: string;
-  error: boolean;
+type PropsType = {
+  state: StateType;
+  setState: (newState: StateType) => void;
 };
 
-export const Settings: FC = () => {
-  const [settingsVal, setSettingsVal] = useState<SettingsValType[]>([
-    { id: crypto.randomUUID(), value: 1, fieldName: 'max value', error: false },
-    { id: crypto.randomUUID(), value: 0, fieldName: 'start value', error: false },
-  ]);
+export const Settings: FC<PropsType> = ({ state, setState }) => {
+  const [disabled, setDisabled] = useState<boolean>(true);
 
-  const onChangeSetting = (inputId: string, newVal: number) =>
-    setSettingsVal(settingsVal.map(s => (s.id === inputId ? { ...s, value: newVal } : s)));
+  const onOffBtn = (val: boolean) => setDisabled(val);
+
+  const setStartVal = (newVal: number) => setState({ ...state, startValue: newVal });
+  const setMaxVal = (newVal: number) => setState({ ...state, maxValue: newVal });
+
+  const setLocalStorage = () => {
+    // localStorage.setItem('maxValue', JSON.stringify(state.maxValue));
+    // localStorage.setItem('startValue', JSON.stringify(state.startValue));
+    setDisabled(true);
+  };
 
   return (
     <div className='block'>
       <div className='block__body block--border'>
-        {settingsVal.map(i => (
-          <Input
-            key={i.id}
-            inputId={i.id}
-            fieldName={i.fieldName}
-            settingValue={i.value}
-            error={i.error}
-            onChangeSetting={onChangeSetting}
-          />
-        ))}
+        <Input stateVal={state.maxValue} fieldName={'Max value:'} changeVal={setMaxVal} onOffBtn={onOffBtn} />
+        <Input stateVal={state.startValue} fieldName={'Start value:'} changeVal={setStartVal} onOffBtn={onOffBtn} />
       </div>
       <div className='block__footer  block--border'>
-        <Button name='Set' onClick={() => console.log(settingsVal)} disabled={false} />
+        <Button name='Set' onClick={setLocalStorage} disabled={disabled} />
       </div>
     </div>
   );

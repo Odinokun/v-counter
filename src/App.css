@@ -49,3 +49,6 @@
 .count-val {
   text-align: center;
 }
+.count-val--max {
+  color: tomato;
+}
