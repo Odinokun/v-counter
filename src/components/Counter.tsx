@@ -1,19 +1,37 @@
 import { FC, useState } from 'react';
 import { Button } from './Button';
 
-export const Counter: FC = () => {
-  const [counter, setCounter] = useState<number>(0);
+type PropsType = {
+  maxVal: number;
+  startVal: number;
+};
 
-  const incCount = () => setCounter(prevState => prevState + 1);
-  const resetCount = () => setCounter(0);
+export const Counter: FC<PropsType> = ({ maxVal, startVal }) => {
+  const [counter, setCounter] = useState<number>(startVal);
+  const [error, setError] = useState<boolean>(false);
+
+  const incCount = () => {
+    setCounter(prevState => {
+      const newValue = prevState + 1;
+      if (newValue >= maxVal) {
+        setError(true);
+      }
+      return newValue;
+    });
+  };
+
+  const resetCount = () => {
+    setCounter(0);
+    setError(false);
+  };
 
   return (
     <div className='block'>
       <div className='block__body block--border'>
-        <h1 className='count-val'>{counter}</h1>
+        <h1 className={error ? 'count-val count-val--max' : 'count-val'}>{counter}</h1>
       </div>
       <div className='block__footer  block--border'>
-        <Button name='Inc' onClick={incCount} />
+        <Button name='Inc' onClick={incCount} disabled={error} />
         <Button name='Reset' onClick={resetCount} disabled={!counter} />
       </div>
     </div>

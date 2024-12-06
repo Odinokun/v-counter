@@ -1,19 +1,27 @@
 import { ChangeEvent, FC, useState } from 'react';
 
 type PropsType = {
-  inputId: string;
+  stateVal: number;
   fieldName: string;
-  settingValue: number;
-  error: boolean;
-  onChangeSetting: (inputId: string, newVal: number) => void;
+  changeVal: (newVal: number) => void;
+  onOffBtn: (val: boolean) => void;
 };
 
-export const Input: FC<PropsType> = ({ inputId, fieldName, settingValue, error, onChangeSetting }) => {
-  const [value, setValue] = useState<number>(settingValue);
+export const Input: FC<PropsType> = ({ stateVal, fieldName, changeVal, onOffBtn }) => {
+  const [value, setValue] = useState<number>(stateVal);
+  const [error, setError] = useState<boolean>(false);
+  // const [onOffChangeVal, setOnOffChangeVal] = useState<boolean>(false);
 
   const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    onChangeSetting(inputId, +e.currentTarget.value);
     setValue(+e.currentTarget.value);
+    if (+e.currentTarget.value < 0) {
+      onOffBtn(true);
+      setError(true);
+    } else {
+      onOffBtn(false);
+      setError(false);
+      changeVal(+e.currentTarget.value);
+    }
   };
 
   return (
